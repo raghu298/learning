@@ -1,0 +1,39 @@
+version: '3'
+services:
+  #mysql db
+  restapidb:
+    image: mysql:5.7
+    network_mode: bridge
+    container_name: restapidb
+    volumes:
+      - mysql-data:/var/lib/mysql
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=rest_api
+    restart: unless-stopped
+  # Application
+  restapiapp:
+    image: restapi:1.0.0
+    network_mode: bridge
+    container_name: restapiapp
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+    environment:
+      - dburl=jdbc:mysql://restapidb:3306/rest_api
+      - dbusername=root
+      - dbpasswd=root
+      - ddl=none
+      - LOG_PATH=/app/logs
+    restart: unless-stopped
+    depends_on:
+      - restapidb
+    links:
+      - restapidb
+volumes:
+  mysql-data:
