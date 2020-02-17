@@ -1,0 +1,23 @@
+spring:
+  data:
+    cassandra:
+      keyspaceName: scylla_producer
+      contactPoints: localhost
+      port: 9045
+      username: scyllaproducer
+      password: scyllaproducer
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+server:
+  port: 9003
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    org.learning.poc.scylla.springbootscyllaproducer: DEBUG
+    org.hibernate: ERROR
+
